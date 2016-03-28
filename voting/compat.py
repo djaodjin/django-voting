@@ -2,9 +2,11 @@
 These are utilities functions to deal with differences between Django versions.
 """
 
+#pylint: disable=invalid-name,unused-import,import-error
+
 try:
-    from django.contrib.auth import get_user_model
-except ImportError: # django < 1.5
-    from django.contrib.auth.models import User
-else:
-    User = get_user_model()
+    from django.contrib.contenttypes.fields import (
+        GenericForeignKey, GenericRelation)
+except ImportError: # django < 1.8
+    from django.contrib.contenttypes.generic import (
+        GenericForeignKey, GenericRelation)

@@ -1,5 +1,4 @@
 from datetime import datetime
-from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.conf import settings
@@ -9,6 +8,7 @@ try:
 except ImportError:
     now = datetime.now
 
+from voting.compat import GenericForeignKey
 from voting.managers import VoteManager
 
 
@@ -25,7 +25,7 @@ class Vote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
-    object = generic.GenericForeignKey('content_type', 'object_id')
+    object = GenericForeignKey('content_type', 'object_id')
     vote = models.SmallIntegerField(choices=SCORES)
     time_stamp = models.DateTimeField(editable=False, default=now)
 
