@@ -1,12 +1,12 @@
 import json
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import get_model
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
 from django.contrib.auth.views import redirect_to_login
 from django.template import loader, RequestContext
 
+from voting.compat import get_model_class
 from voting.models import Vote
 
 VOTE_DIRECTIONS = (('up', 1), ('down', -1), ('clear', 0))
@@ -111,7 +111,7 @@ def vote_on_object_with_lazy_model(request, app_label, model_name, *args,
     Returns HTTP 400 (Bad Request) if there is no model matching the app_label
     and model_name.
     """
-    model = get_model(app_label, model_name)
+    model = get_model_class("%s.%s" % (app_label, model_name))
     if not model:
         return HttpResponseBadRequest('Model %s.%s does not exist' % (
             app_label, model_name))
