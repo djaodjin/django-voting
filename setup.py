@@ -18,7 +18,6 @@ setup(
     url='http://github.com/jezdez/django-voting/',
     packages=[
         'voting',
-        'voting.migrations',
         'voting.templatetags',
         'voting.tests',
     ],
